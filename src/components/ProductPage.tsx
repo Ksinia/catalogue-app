@@ -1,17 +1,20 @@
 import { Component } from "react";
 import { connect } from "react-redux";
-
-import { fetchProduct } from "../actions/product";
-import { RootState } from "../reducer";
-import { AnyAction } from "redux";
-import { Product } from "../types";
-import { ThunkDispatch } from "redux-thunk";
 import { RouteComponentProps } from "react-router-dom";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
+
+import { fetchProduct, clearProduct } from "../actions/product";
+import { fetchReviews, clearReviews } from "../actions/review";
+import { RootState } from "../reducer";
+import { Product, Review } from "../types";
+import ReviewTile from "../components/ReviewTile";
 
 type MatchParams = { productId: string };
 
 interface OwnProps {
   product: Product;
+  reviews: Review[];
 }
 
 interface DispatchProps {
@@ -25,28 +28,43 @@ class ProductPage extends Component<Props> {
 
   componentDidMount() {
     this.props.dispatch(fetchProduct(this.productId));
+    this.props.dispatch(fetchReviews(this.productId));
   }
 
   render() {
     if (this.props.product) {
+      const { imgUrl, name, price, currency, description } = this.props.product;
       return (
         <div>
-          <img src={this.props.product.imgUrl} />
-          <p>{this.props.product.name}</p>
+          <img src={imgUrl} alt={name} />
+          <p>{name}</p>
           <p>
-            {this.props.product.price}
-            {this.props.product.currency}
+            {price}
+            {currency}
           </p>
-          <p>{this.props.product.description}</p>
+          <p>{description}</p>
+          {this.props.reviews && this.props.reviews.length > 0 ? (
+            <div className="reviews">
+              {this.props.reviews.map((review, i) => (
+                <ReviewTile key={i} review={review} />
+              ))}
+            </div>
+          ) : (
+            "No reviews yet"
+          )}
         </div>
       );
     } else {
       return "Loading...";
     }
   }
+  componentWillUnmount() {
+    this.props.dispatch(clearProduct());
+    this.props.dispatch(clearReviews());
+  }
 }
 function MapStateToProps(state: RootState) {
-  return { product: state.product };
+  return { product: state.product, reviews: state.reviews };
 }
 
 export default connect(MapStateToProps)(ProductPage);

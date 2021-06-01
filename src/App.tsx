@@ -8,7 +8,7 @@ import ProductsList from "./components/ProductsList";
 function App() {
   return (
     <div className="App">
-      <img src={logo} className="logo" />
+      <img src={logo} className="logo" alt="logo" />
       <Switch>
         <Route path="/product/:productId" component={ProductPage} />
         <Route path="/" component={ProductsList} />

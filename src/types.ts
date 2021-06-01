@@ -12,6 +12,13 @@ export interface Product {
   imgUrl: string;
 }
 
+export interface Review {
+  productId: string;
+  locale: string;
+  rating: number;
+  text: string;
+}
+
 export type MyThunkAction<A extends Action = AnyAction> = ThunkAction<
   void,
   RootState,

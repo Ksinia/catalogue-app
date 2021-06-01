@@ -17,7 +17,7 @@ export const fetchProduct =
 
 export const PRODUCT_FETCHED = "PRODUCT_FETCHED";
 
-export const productFetched = (product: Product): AnyAction => {
+const productFetched = (product: Product): AnyAction => {
   return {
     type: PRODUCT_FETCHED,
     payload: product,
@@ -37,9 +37,15 @@ export const fetchProducts = (): MyThunkAction => async (dispatch) => {
 
 export const PRODUCTS_FETCHED = "PRODUCTS_FETCHED";
 
-export const productsFetched = (products: Product[]): AnyAction => {
+const productsFetched = (products: Product[]): AnyAction => {
   return {
     type: PRODUCTS_FETCHED,
     payload: products,
   };
+};
+
+export const CLEAR_PRODUCT = "CLEAR_PRODUCT";
+
+export const clearProduct = () => {
+  return { type: CLEAR_PRODUCT };
 };
