@@ -24,6 +24,37 @@ const reviewsFetched = (reviews: Review[]): AnyAction => {
   };
 };
 
+export const addReview =
+  (review: Review): MyThunkAction =>
+  async (dispatch) => {
+    try {
+      const response = await fetch(
+        `${reviewApiUrl}/reviews/${review.productId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(review),
+        }
+      );
+      const body = await response.json();
+      const action = reviewUploaded(body);
+      dispatch(action);
+    } catch (error) {
+      console.error("error:", error);
+    }
+  };
+
+export const REVIEW_UPLOADED = "REVIEW_UPLOADED";
+
+const reviewUploaded = (review: Review): AnyAction => {
+  return {
+    type: REVIEW_UPLOADED,
+    payload: review,
+  };
+};
+
 export const CLEAR_REVIEWS = "CLEAR_REVIEWS";
 
 export const clearReviews = () => {

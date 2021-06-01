@@ -9,6 +9,7 @@ import { fetchReviews, clearReviews } from "../actions/review";
 import { RootState } from "../reducer";
 import { Product, Review } from "../types";
 import ReviewTile from "../components/ReviewTile";
+import AddReviewForm from "./AddReviewForm";
 
 type MatchParams = { productId: string };
 
@@ -25,6 +26,11 @@ type Props = OwnProps & DispatchProps & RouteComponentProps<MatchParams>;
 
 class ProductPage extends Component<Props> {
   productId = this.props.match.params.productId;
+
+  initialState = {
+    formShown: false,
+  };
+  state = this.initialState;
 
   componentDidMount() {
     this.props.dispatch(fetchProduct(this.productId));
@@ -43,6 +49,8 @@ class ProductPage extends Component<Props> {
             {currency}
           </p>
           <p>{description}</p>
+          <button onClick={this.showForm}>Add a review</button>
+          {this.state.formShown && <AddReviewForm productId={this.productId} />}
           {this.props.reviews && this.props.reviews.length > 0 ? (
             <div className="reviews">
               {this.props.reviews.map((review, i) => (
@@ -62,6 +70,10 @@ class ProductPage extends Component<Props> {
     this.props.dispatch(clearProduct());
     this.props.dispatch(clearReviews());
   }
+
+  showForm = () => {
+    this.setState({ formShown: !this.state.formShown });
+  };
 }
 function MapStateToProps(state: RootState) {
   return { product: state.product, reviews: state.reviews };
