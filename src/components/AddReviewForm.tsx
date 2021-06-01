@@ -44,27 +44,35 @@ class AddReviewForm extends Component<Props> {
     }
   };
 
-  onChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  onChange = (
+    event:
+      | React.ChangeEvent<HTMLSelectElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ): void => {
     this.setState({ ...this.state, [event.target.name]: event.target.value });
   };
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
-        <label htmlFor="text">Your text:</label>
-        <input
+      <form onSubmit={this.onSubmit} autoComplete="off">
+        <label htmlFor="text">Your review:</label>
+        <textarea
           onChange={this.onChange}
           value={this.state.text}
           name="text"
           id="text"
         />
         <label htmlFor="rating">Your rating:</label>
-        <input
+        <select
           onChange={this.onChange}
           value={this.state.rating}
           name="rating"
           id="rating"
-        />
+        >
+          {Array.from({ length: 5 }, (_, n) => n + 1).map((grade) => (
+            <option value={grade}>{grade}</option>
+          ))}
+        </select>
         <button>Submit</button>
       </form>
     );
