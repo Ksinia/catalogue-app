@@ -5,15 +5,15 @@ import { Product } from "../types";
 const ProductTile = (props: { product: Product }) => {
   const { imgUrl, price, name, currency, description, id } = props.product;
   return (
-    <div>
+    <div className="product-tile">
       <Link to={`/product/${id}`}>
         <img src={imgUrl} alt={name} />
         <p>{name}</p>
-        <p>
+        <p className="price">
           {price}
           {currency}
         </p>
-        <p>{description}</p>
+        <p className="description">{description}</p>
       </Link>
     </div>
   );

@@ -1,7 +1,7 @@
 import { Switch, Route } from "react-router-dom";
 
 import logo from "./logo.svg";
-import "./App.css";
+import "./App.scss";
 import ProductPage from "./components/ProductPage";
 import ProductsList from "./components/ProductsList";
 

@@ -7,6 +7,7 @@ import { AnyAction } from "redux";
 import { Product } from "../types";
 import { ThunkDispatch } from "redux-thunk";
 import ProductTile from "./ProductTile";
+import "./ProductsList.scss";
 
 interface OwnProps {
   productsList: Product[];
@@ -26,9 +27,9 @@ class ProductsList extends Component<Props> {
   render() {
     if (this.props.productsList) {
       return (
-        <div>
-          {this.props.productsList.map((product) => (
-            <ProductTile key={product.id} product={product} />
+        <div className="products-list">
+          {this.props.productsList.map((product, i) => (
+            <ProductTile key={`${product.id}-${i}`} product={product} />
           ))}
         </div>
       );
