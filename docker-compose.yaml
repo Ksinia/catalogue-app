@@ -1,0 +1,6 @@
+version: "2"
+services:
+  products:
+    image: redocly/cors-anywhere
+    ports:
+      - "3004:8080"
