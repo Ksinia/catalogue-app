@@ -1,0 +1,36 @@
+.product-page {
+  text-align: left;
+
+  .product {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    margin: 1rem auto 1rem 0;
+    .info {
+      margin: 0 1rem;
+      h1 {
+        font-size: x-large;
+        font-weight: bold;
+        margin-top: 0;
+      }
+      p.price {
+        font-weight: bold;
+      }
+      p.description {
+        margin-top: 2rem;
+      }
+    }
+  }
+  .reviews-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    .review {
+      width: 20rem;
+      text-align: left;
+      h3 {
+        margin: 2rem auto 0 auto;
+      }
+    }
+  }
+}

@@ -10,6 +10,7 @@ import { RootState } from "../reducer";
 import { Product, Review } from "../types";
 import ReviewTile from "../components/ReviewTile";
 import AddReviewForm from "./AddReviewForm";
+import "./ProductPage.scss";
 
 type MatchParams = { productId: string };
 
@@ -41,20 +42,24 @@ class ProductPage extends Component<Props> {
     if (this.props.product) {
       const { imgUrl, name, price, currency, description } = this.props.product;
       return (
-        <div>
-          <img src={imgUrl} alt={name} />
-          <p>{name}</p>
-          <p>
-            {price}
-            {currency}
-          </p>
-          <p>{description}</p>
+        <div className="product-page">
+          <div className="product">
+            <img src={imgUrl} alt={name} />
+            <div className="info">
+              <h1>{name}</h1>
+              <p className="price">
+                {price}
+                {currency}
+              </p>
+              <p className="description">{description}</p>
+            </div>
+          </div>
           <button onClick={this.showForm}>Add a review</button>
           {this.state.formShown && <AddReviewForm productId={this.productId} />}
           {this.props.reviews && this.props.reviews.length > 0 ? (
-            <div className="reviews">
+            <div className="reviews-list">
               {this.props.reviews.map((review, i) => (
-                <ReviewTile key={i} review={review} />
+                <ReviewTile key={i} review={review} index={i + 1} />
               ))}
             </div>
           ) : (
