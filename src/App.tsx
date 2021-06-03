@@ -1,14 +1,17 @@
 import { Switch, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import logo from "./logo.svg";
-import "./App.scss";
 import ProductPage from "./components/ProductPage";
 import ProductsList from "./components/ProductsList";
+import "./App.scss";
 
 function App() {
   return (
     <div className="App">
-      <img src={logo} className="logo" alt="logo" />
+      <Link to={`/`}>
+        <img src={logo} className="logo" alt="logo" />
+      </Link>
       <Switch>
         <Route path="/product/:productId" component={ProductPage} />
         <Route path="/" component={ProductsList} />

@@ -63,7 +63,7 @@ class ProductPage extends Component<Props> {
               ))}
             </div>
           ) : (
-            "No reviews yet"
+            <p>No reviews yet</p>
           )}
         </div>
       );

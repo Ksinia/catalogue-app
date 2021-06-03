@@ -6,6 +6,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { addReview } from "../actions/review";
 import { RootState } from "../reducer";
 import { Review } from "../types";
+import "./AddReviewForm.scss";
 
 interface OwnProps {
   productId: string;
@@ -57,23 +58,30 @@ class AddReviewForm extends Component<Props> {
       <form onSubmit={this.onSubmit} autoComplete="off">
         <label htmlFor="text">Your review:</label>
         <textarea
+          className="textarea"
           onChange={this.onChange}
           value={this.state.text}
           name="text"
           id="text"
         />
-        <label htmlFor="rating">Your rating:</label>
-        <select
-          onChange={this.onChange}
-          value={this.state.rating}
-          name="rating"
-          id="rating"
-        >
-          {Array.from({ length: 5 }, (_, n) => n + 1).map((grade) => (
-            <option value={grade}>{grade}</option>
-          ))}
-        </select>
-        <button>Submit</button>
+        <div className="bottom-form">
+          <div>
+            <label htmlFor="rating">Rating:</label>
+            <select
+              onChange={this.onChange}
+              value={this.state.rating}
+              name="rating"
+              id="rating"
+            >
+              {Array.from({ length: 5 }, (_, n) => n + 1).map((grade) => (
+                <option value={grade} key={grade}>
+                  {grade}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button>Submit</button>
+        </div>
       </form>
     );
   }

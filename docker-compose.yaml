@@ -1,6 +1,15 @@
 version: "2"
 services:
-  products:
+  cors-anywhere:
     image: redocly/cors-anywhere
+    hostname: cors-anywhere
     ports:
       - "3004:8080"
+  products:
+    build: ./
+    ports:
+      - "3003:3003"
+    environment:
+      PORT: 3003
+      REACT_PRODUCT_API:
+        REACT_REVIEWS_API:

@@ -1,46 +1,34 @@
-# Getting Started with Create React App
+# Catalogue app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the catalogue frontend for the products and reviews visualisation.
 
-## Available Scripts
+# Start
 
-In the project directory, you can run:
+With default values in docker-compose.yml, products API URL is http://localhost:3001", and reviews API is http://localhost:3002.
 
-### `npm start`
+To start the application under Mac and Windows:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+docker-compose up
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Linux:
 
-### `npm test`
+```
+docker-compose up cors-anywhere
+npm ci
+PORT=3003 npm start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+After that, it will be available at http://localhost:3003.
 
-### `npm run build`
+## Configuration
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+You can adjust API URLs using docker-compose.yml environment variables:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- _REACT_PRODUCT_API_: default http://cors-anywhere:3004/http://host.docker.internal:3001
+- _REACT_REVIEWS_API_: default http://cors-anywhere:3004/http://host.docker.internal:3002
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+[cors-anywhere](https://hub.docker.com/r/redocly/cors-anywhere) service is needed for case API doesn't set [CORS headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) rendering its direct usage in the frontend impossible.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+host.docker.internal is a way of accessing `localhost` ports from within the container, but it works only under Mac and Windows.

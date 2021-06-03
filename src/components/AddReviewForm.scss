@@ -1,0 +1,22 @@
+form {
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  max-width: 800px;
+  background-color: whitesmoke;
+  .bottom-form {
+    display: flex;
+    flex-direction: row wrap;
+    justify-content: space-between;
+    select {
+      margin: auto 1rem;
+    }
+  }
+  textarea {
+    border: none;
+    width: 99%;
+    margin: 0.5rem auto;
+    min-height: 5rem;
+    resize: none;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
