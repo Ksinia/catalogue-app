@@ -12,4 +12,4 @@ services:
     environment:
       PORT: 3003
       REACT_PRODUCT_API:
-        REACT_REVIEWS_API:
+      REACT_REVIEWS_API:
