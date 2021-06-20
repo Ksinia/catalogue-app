@@ -1,17 +1,24 @@
 import { MyThunkAction, Review } from "../types";
 import { AnyAction } from "redux";
 import { reviewApiUrl } from "../apiUrls";
+import { reviewsServerError } from "../actions/error";
 
 export const fetchReviews =
   (productId: string): MyThunkAction =>
   async (dispatch) => {
     try {
       const response = await fetch(`${reviewApiUrl}/reviews/${productId}`);
-      const body = await response.json();
-      const action = reviewsFetched(body);
-      dispatch(action);
+      if (response.ok) {
+        const body = await response.json();
+        const action = reviewsFetched(body);
+        dispatch(action);
+      } else {
+        dispatch(reviewsServerError());
+        console.log(await response.text());
+      }
     } catch (error) {
-      console.error("error:", error);
+      dispatch(reviewsServerError());
+      console.error(error);
     }
   };
 
@@ -38,11 +45,17 @@ export const addReview =
           body: JSON.stringify(review),
         }
       );
-      const body = await response.json();
-      const action = reviewUploaded(body);
-      dispatch(action);
+      if (response.ok) {
+        const body = await response.json();
+        const action = reviewUploaded(body);
+        dispatch(action);
+      } else {
+        dispatch(reviewsServerError);
+        console.error(await response.text());
+      }
     } catch (error) {
-      console.error("error:", error);
+      dispatch(reviewsServerError());
+      console.error(error);
     }
   };
 

@@ -7,9 +7,10 @@ import { ThunkDispatch } from "redux-thunk";
 import { fetchProduct, clearProduct } from "../actions/product";
 import { fetchReviews, clearReviews } from "../actions/review";
 import { RootState } from "../reducer";
-import { Product, Review } from "../types";
+import { Product, Review, ErrorsObject } from "../types";
 import ReviewTile from "../components/ReviewTile";
 import AddReviewForm from "./AddReviewForm";
+import ErrorMessage from "./ErrorMessage";
 import "./ProductPage.scss";
 
 type MatchParams = { productId: string };
@@ -17,6 +18,7 @@ type MatchParams = { productId: string };
 interface OwnProps {
   product: Product;
   reviews: Review[];
+  errorsObject: ErrorsObject;
 }
 
 interface DispatchProps {
@@ -39,6 +41,9 @@ class ProductPage extends Component<Props> {
   }
 
   render() {
+    if (this.props.errorsObject.productsError) {
+      return <ErrorMessage error={this.props.errorsObject.productsError} />;
+    }
     if (this.props.product) {
       const { imgUrl, name, price, currency, description } = this.props.product;
       return (
@@ -54,16 +59,24 @@ class ProductPage extends Component<Props> {
               <p className="description">{description}</p>
             </div>
           </div>
-          <button onClick={this.showForm}>Add a review</button>
-          {this.state.formShown && <AddReviewForm productId={this.productId} />}
-          {this.props.reviews && this.props.reviews.length > 0 ? (
-            <div className="reviews-list">
-              {this.props.reviews.map((review, i) => (
-                <ReviewTile key={i} review={review} index={i + 1} />
-              ))}
-            </div>
+          {this.props.errorsObject.reviewsError ? (
+            <ErrorMessage error={this.props.errorsObject.reviewsError} />
           ) : (
-            <p>No reviews yet</p>
+            <div>
+              <button onClick={this.showForm}>Add a review</button>
+              {this.state.formShown && (
+                <AddReviewForm productId={this.productId} />
+              )}
+              {this.props.reviews && this.props.reviews.length > 0 ? (
+                <div className="reviews-list">
+                  {this.props.reviews.map((review, i) => (
+                    <ReviewTile key={i} review={review} index={i + 1} />
+                  ))}
+                </div>
+              ) : (
+                <p>No reviews yet</p>
+              )}
+            </div>
           )}
         </div>
       );
@@ -81,7 +94,11 @@ class ProductPage extends Component<Props> {
   };
 }
 function MapStateToProps(state: RootState) {
-  return { product: state.product, reviews: state.reviews };
+  return {
+    product: state.product,
+    reviews: state.reviews,
+    errorsObject: state.errors,
+  };
 }
 
 export default connect(MapStateToProps)(ProductPage);

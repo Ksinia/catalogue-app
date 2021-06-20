@@ -19,6 +19,11 @@ export interface Review {
   text: string;
 }
 
+export interface ErrorsObject {
+  productsError: string;
+  reviewsError: string;
+}
+
 export type MyThunkAction<A extends Action = AnyAction> = ThunkAction<
   void,
   RootState,

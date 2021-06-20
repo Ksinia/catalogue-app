@@ -1,17 +1,24 @@
 import { MyThunkAction, Product } from "../types";
 import { AnyAction } from "redux";
 import { productApiUrl } from "../apiUrls";
+import { productsServerError } from "./error";
 
 export const fetchProduct =
   (productId: string): MyThunkAction =>
   async (dispatch) => {
     try {
       const response = await fetch(`${productApiUrl}/product/${productId}`);
-      const body = await response.json();
-      const action = productFetched(body);
-      dispatch(action);
+      if (response.ok) {
+        const body = await response.json();
+        const action = productFetched(body);
+        dispatch(action);
+      } else {
+        dispatch(productsServerError());
+        console.error(await response.text());
+      }
     } catch (error) {
-      console.error("error:", error);
+      dispatch(productsServerError());
+      console.error(error);
     }
   };
 
@@ -27,11 +34,17 @@ const productFetched = (product: Product): AnyAction => {
 export const fetchProducts = (): MyThunkAction => async (dispatch) => {
   try {
     const response = await fetch(`${productApiUrl}/product/`);
-    const body = await response.json();
-    const action = productsFetched(body);
-    dispatch(action);
+    if (response.ok) {
+      const body = await response.json();
+      const action = productsFetched(body);
+      dispatch(action);
+    } else {
+      dispatch(productsServerError());
+      console.error(await response.text());
+    }
   } catch (error) {
-    console.error("error:", error);
+    dispatch(productsServerError());
+    console.error(error);
   }
 };
 

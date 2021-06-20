@@ -4,13 +4,15 @@ import { connect } from "react-redux";
 import { fetchProducts } from "../actions/product";
 import { RootState } from "../reducer";
 import { AnyAction } from "redux";
-import { Product } from "../types";
+import { Product, ErrorsObject } from "../types";
 import { ThunkDispatch } from "redux-thunk";
 import ProductTile from "./ProductTile";
 import "./ProductsList.scss";
+import ErrorMessage from "./ErrorMessage";
 
 interface OwnProps {
   productsList: Product[];
+  errorsObject: ErrorsObject;
 }
 
 interface DispatchProps {
@@ -25,6 +27,9 @@ class ProductsList extends Component<Props> {
   }
 
   render() {
+    if (this.props.errorsObject.productsError) {
+      return <ErrorMessage error={this.props.errorsObject.productsError} />;
+    }
     if (this.props.productsList) {
       return (
         <div className="products-list">
@@ -39,7 +44,7 @@ class ProductsList extends Component<Props> {
   }
 }
 function MapStateToProps(state: RootState) {
-  return { productsList: state.products };
+  return { productsList: state.products, errorsObject: state.errors };
 }
 
 export default connect(MapStateToProps)(ProductsList);
