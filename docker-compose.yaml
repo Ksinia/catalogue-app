@@ -9,6 +9,8 @@ services:
     build: ./
     ports:
       - "3003:3003"
+    volumes:
+      - "./src:/src/src"
     environment:
       PORT: 3003
       REACT_PRODUCT_API:
